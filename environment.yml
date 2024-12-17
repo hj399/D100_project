@@ -1,0 +1,34 @@
+name: data_project
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  # Python
+  - python>=3.8
+  - pip
+  # Testing
+  - pre-commit
+  - pytest>=6 
+  - pytest-cov
+  - setuptools-scm
+  # Data processing
+  - pandas
+  - numpy
+  - scipy
+  - dask-ml
+  - ydata-profiling
+  # Interactive environment
+  - ipykernel
+  # Visualization
+  - matplotlib
+  - seaborn
+  # Machine learning
+  - scikit-learn>=1.3.0 
+  - lightgbm
+  - xgboost
+  - glum
+  # Additional packages for statistics and utilities
+  - statsmodels
+  - shap
+  - dalex
+  - nbformat>=4.2.0
