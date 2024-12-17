@@ -1,11 +1,7 @@
-import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
 from sklearn.model_selection import learning_curve
-
-
-import seaborn as sns
 import matplotlib.pyplot as plt
 
 def plot_correlation_matrix(df, figsize=(20, 10)):
@@ -518,3 +514,50 @@ def plot_lgbm_top_features(feature_importance_df, top_n=10):
     plt.title(f"Top {top_n} Feature Importances - LGBM")
     plt.xlabel("Importance Score")
     plt.show()
+
+
+
+def get_glm_feature_importance(glm_model, all_feature_names, top_n=10):
+    """
+    Generate and plot GLM feature importance.
+
+    Parameters:
+    ----------
+    glm_model : sklearn model
+        The trained logistic regression model (GLM).
+    all_feature_names : list
+        List of all feature names after preprocessing.
+    top_n : int, optional
+        Number of top features to display, by default 10.
+
+    Returns:
+    -------
+    pd.DataFrame
+        A DataFrame with feature importance (coefficients).
+    """
+    # Extract GLM coefficients
+    glm_coefficients = glm_model.coef_[0]
+    
+    # Map GLM coefficients to feature names
+    glm_feature_importance = pd.DataFrame({
+        "Feature": all_feature_names,
+        "Coefficient": glm_coefficients
+    })
+
+    # Calculate absolute importance for sorting
+    glm_feature_importance["Importance"] = glm_feature_importance["Coefficient"].abs()
+    glm_feature_importance = glm_feature_importance.sort_values(by="Importance", ascending=False)
+
+    # Display top N features
+    print(f"Top {top_n} Features for GLM Model:")
+    print(glm_feature_importance.head(top_n))
+
+    # Plot top N features
+    plt.figure(figsize=(10, 6))
+    plt.barh(glm_feature_importance["Feature"][:top_n], glm_feature_importance["Importance"][:top_n])
+    plt.gca().invert_yaxis()
+    plt.title("Top Features for GLM Model")
+    plt.xlabel("Absolute Coefficient Magnitude")
+    plt.show()
+
+    return glm_feature_importance

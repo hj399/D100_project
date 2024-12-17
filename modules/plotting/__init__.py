@@ -10,7 +10,8 @@ from .plotting import (
     plot_confusion_matrix,
     plot_learning_curve,
     plot_pdp_top_features,
-    plot_lgbm_top_features
+    plot_lgbm_top_features,
+    get_glm_feature_importance
 )
 
 __all__ = [
@@ -26,5 +27,6 @@ __all__ = [
     "plot_confusion_matrix",
     "plot_learning_curve",
     "plot_pdp_top_features", 
-    "plot_lgbm_top_features"
+    "plot_lgbm_top_features",
+    "get_glm_feature_importance"
 ]
