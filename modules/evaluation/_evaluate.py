@@ -84,7 +84,7 @@ def evaluate_predictions(
 
     Notes
     -----
-    - Calculates metrics including bias, deviance, log loss, accuracy, F1 score, MAE, RMSE, and Gini coefficient.
+    - Calculates metrics including bias, deviance, log loss, accuracy, F1 score, MAE, and Gini coefficient.
     - If neither `prob_column` nor `model` is provided, raises a ValueError.
     - Outputs a classification report for detailed performance analysis.
     """
@@ -123,11 +123,7 @@ def evaluate_predictions(
     evals["accuracy"] = accuracy_score(actuals, preds)
     evals["f1_weighted"] = f1_score(actuals, preds, average="weighted")
 
-    # 4. MAE and RMSE
-    evals["MAE"] = mean_absolute_error(actuals, preds, sample_weight=weights)
-    evals["RMSE"] = np.sqrt(mean_squared_error(actuals, preds, sample_weight=weights))
-
-    # 5. Gini Coefficient
+    # 4. Gini Coefficient
     cum_exposure, cum_true = lorenz_curve(actuals, np.argmax(probs, axis=1), weights)
     evals["Gini"] = 1 - 2 * auc(cum_exposure, cum_true)
 
@@ -140,7 +136,6 @@ def evaluate_predictions(
     print(classification_report(actuals, preds))
 
     return pd.DataFrame(evals, index=[model_name])
-
 
 def get_lgbm_feature_importance(
     lgbm_model, 
