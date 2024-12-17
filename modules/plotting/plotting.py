@@ -3,6 +3,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
 from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
+from scipy.stats import skew
 
 def plot_correlation_matrix(df, figsize=(20, 10)):
     """
@@ -158,16 +159,14 @@ def plot_histograms(df, figsize=(25, 20), color='green', edgecolor='black'):
     plt.show()
 
 
-def plot_dist(dataset, columns_list, rows, cols):
+def plot_dist(dataset, rows, cols):
     """
-    Plots the distribution of specified numerical columns using KDE plots in a grid layout.
+    Plots the distribution of numerical columns in the dataset using KDE plots in a grid layout.
 
     Parameters:
     -----------
     dataset : pandas.DataFrame
         The input DataFrame containing the data.
-    columns_list : list
-        A list of column names to include in the KDE plots.
     rows : int
         The number of rows in the grid layout.
     cols : int
@@ -176,17 +175,28 @@ def plot_dist(dataset, columns_list, rows, cols):
     Returns:
     --------
     None
-        Displays a grid of KDE plots for the specified numerical columns.
+        Displays a grid of KDE plots for the numerical columns.
 
     Notes:
     ------
+    - All columns except the defined categorical columns are considered numerical.
+    - The exact number of numerical columns displayed is controlled by the rows and cols arguments.
+    - Non-numeric columns are excluded automatically.
     - Columns named 'id' will be excluded from the plots.
     - Uses a custom color palette for better visual appeal.
     - Highlights the median value of each column with a dashed line.
     """
-    from scipy.stats import skew
+    categoricals = ["Application mode", "Application order", "Previous qualification", "Displaced", 
+                "Debtor", "Tuition fees up to date", "Gender", "Scholarship holder", 
+                'Marital status', 'Course', 'Daytime/evening attendance', 
+                      "Mother's occupation", "Father's occupation", "Nacionality", 
+                      "Educational special needs",
+                      "Mother's qualification", "Father's qualification", "International"]
 
-    columns_list = [col for col in columns_list if col != 'id']  # Exclude 'id' column if present
+    # Identify numerical columns (exclude categorical and 'id' columns)
+    numerical_columns = [col for col in dataset.columns if col not in categoricals and dataset[col].dtype in ['int64', 'float64']]
+    numerical_columns = numerical_columns[:rows * cols]  # Limit the number of columns based on rows and cols
+
     fig, axs = plt.subplots(rows, cols, figsize=(60, 70))
     fig.subplots_adjust(hspace=1, wspace=1)  # Adjust spacing between subplots
 
@@ -201,10 +211,10 @@ def plot_dist(dataset, columns_list, rows, cols):
         '#FF0054', '#FF7849', '#219EBC', '#FFB703', '#023047'
     ]
 
-    # Plot KDE for each column
-    for i, col in enumerate(columns_list):
+    # Plot KDE for each numerical column
+    for i, col in enumerate(numerical_columns):
         sns.kdeplot(
-            dataset[col],
+            dataset[col].dropna(),  # Drop missing values to avoid errors
             ax=axs[i // cols, i % cols],
             fill=True,
             alpha=0.5,
@@ -212,21 +222,22 @@ def plot_dist(dataset, columns_list, rows, cols):
             color=colors[i % len(colors)],
             label='Density'
         )
-        axs[i // cols, i % cols].set_title(f'{col}, Skewness: {skew(dataset[col]):.2f}', fontsize=28)
+        axs[i // cols, i % cols].set_title(f'{col}, Skewness: {skew(dataset[col].dropna()):.2f}', fontsize=28)
         axs[i // cols, i % cols].set_xlabel(col, fontsize=24)
         axs[i // cols, i % cols].set_ylabel('Density', fontsize=24)
         axs[i // cols, i % cols].legend(fontsize=22)
         axs[i // cols, i % cols].tick_params(axis='both', which='major', labelsize=20)
 
         # Highlight median value
-        median_train = dataset[col].median()
-        axs[i // cols, i % cols].axvline(x=median_train, color='#4caba4', linestyle='--')
+        median_value = dataset[col].median()
+        axs[i // cols, i % cols].axvline(x=median_value, color='#4caba4', linestyle='--')
 
     fig.suptitle('Distribution of Numeric Columns', fontsize=36)
     plt.tight_layout()
     plt.gcf().set_facecolor('skyblue')
     sns.despine(left=True, bottom=True)  # Remove borders for a cleaner look
     plt.show()
+
 
 def plot_top_correlations(dataset, target_column, top_n=10, figsize=(10, 11)):
     """
