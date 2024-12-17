@@ -1,8 +1,5 @@
 # Project Name
-
-A brief description of what this project does, its goals, and what it aims to solve.
-
----
+D100 / D400 Project
 
 ## Table of Contents
 
@@ -12,19 +9,18 @@ A brief description of what this project does, its goals, and what it aims to so
    - [Project Installation](#project-installation)  
 3. [Usage](#usage)  
 4. [Contributing](#contributing)  
-5. [License](#license)  
-6. [Contact](#contact)  
 
 ---
 
 ## Overview
 
-This project uses machine learning and data analysis techniques to explore and predict [brief description of target/goal]. It includes:
+The dataset was created in a project that aims to imporve to the reduction of academic dropout and failure in higher education, by using machine learning techniques to identify students at risk at an early stage of their academic path, so that strategies to support them can be implemented.
 
-- Data preprocessing  
+This project explores and predict the dropout and failure in higher education (Target Variable). It includes:
+
+- EDA and Data preprocessing  
 - Model training (e.g., GLM, LGBM)  
 - Model evaluation and interpretability using SHAP, PDPs, and other tools  
-- Visualizations for insights  
 
 ---
 
@@ -88,99 +84,55 @@ You should see all required dependencies (e.g., `pandas`, `lightgbm`, `dalex`, `
 
 ---
 
-## Usage
-
-Once the environment is set up, you can run scripts, notebooks, and other components of the project.
-
-### Example: Running the Analysis
-
-- **Run Python Scripts**:  
-   ```bash
-   python scripts/your_script_name.py
-   ```
-
-- **Launch Jupyter Notebooks**:  
-   If the project contains Jupyter notebooks, run:  
-   ```bash
-   jupyter notebook
-   ```
-
-- **Run Tests**:  
-   If tests are configured:  
-   ```bash
-   pytest
-   ```
-
----
-
 ## Project Structure
 
 Here’s an overview of the directory structure:
 
-```plaintext
 Project/
 │
-├── data/                      # Data directory
-│   ├── cleaned_dataset.parquet
-│   └── raw/                   # Raw data files
+├── analyses/                     # Analysis scripts and notebooks
+│   └── eda_cleaning.ipynb        # Exploratory Data Analysis and cleaning notebook
+|   └── model_training.py         # Model training script               
 │
-├── modules/                   # Custom Python modules
-│   ├── data_prep.py           # Data preparation functions
-│   ├── evaluation.py          # Model evaluation functions
-│   ├── feature_engineering.py # Feature engineering logic
-│   └── plotting.py            # Plotting and visualization functions
+├── data/                         # Data directory
+│   ├── cleaned_dataset.parquet   # Cleaned dataset file
+│   └── dataset.csv               # Raw dataset file
 │
-├── scripts/                   # Scripts for training and testing
-│   └── train_model.py
+├── modules/                      # Custom Python modules
+│   ├── data_prep/                # Data preparation functions
+│   │   ├── __init__.py
+│   │   ├── _handle_skewness.py
+│   │   ├── _load_data.py
+│   │   └── _sample_split.py
+│   │
+│   ├── evaluation/               # Model evaluation functions
+│   │   ├── __init__.py
+│   │   └── _evaluate.py
+│   │
+│   ├── feature_engineering/      # Feature engineering logic
+│   │   ├── __init__.py
+│   │   ├── _ordinalEncoder.py
+│   │   └── _winsorizer.py
+│   │
+│   ├── path/                     # Path helpers and utilities
+│   │   ├── __init__.py
+│   │   └── _path_helper.py
+│   │
+│   └── plotting/                 # Plotting and visualization functions
+│       ├── __init__.py
+│       └── plotting.py
 │
-├── tests/                     # Unit tests
+├── test/                         # Unit tests
+│   ├── __init__.py
+│   └── test_ordinalencoder.py
 │
-├── environment.yml            # Conda environment file
-├── README.md                  # Project documentation
-├── setup.py                   # Installable package configuration
-└── requirements.txt           # Python dependencies (optional)
-```
-
----
-
-## Contributing
-
-Contributions are welcome! Here’s how you can contribute:
-
-1. Fork this repository.  
-2. Clone your forked repo:  
-   ```bash
-   git clone https://github.com/yourusername/project_name.git
-   ```
-3. Create a new branch for your feature or bugfix:  
-   ```bash
-   git checkout -b feature/your-feature-name
-   ```
-4. Commit and push your changes:  
-   ```bash
-   git add .
-   git commit -m "Add a meaningful commit message"
-   git push origin feature/your-feature-name
-   ```
-5. Open a Pull Request and describe the changes you made.
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE). You’re free to use, modify, and distribute it with proper attribution.
-
----
-
-## Contact
-
-For questions or suggestions, feel free to reach out:
-
-- **Your Name**  
-- **Email**: your.email@example.com  
-- **GitHub**: [yourusername](https://github.com/yourusername)  
-
----
-
-Now your project is documented with installation instructions, usage, structure, and contribution guidelines. Copy this into your **README.md**, and others can install and use your project seamlessly. 🚀
+├── .gitignore                    # Git ignore file
+├── .pre-commit-config.yaml       # Pre-commit hook configurations
+├── .prettierrc                   # Prettier configuration file
+├── .coverage                     # Coverage file
+├── .flake8                       # Flake8 linting configuration
+├── environment.yml               # Conda environment file
+├── pyproject.toml                # Project metadata and build system configuration
+├── setup.cfg                     # Python package setup configuration
+|── README.md                     # Project documentation
 

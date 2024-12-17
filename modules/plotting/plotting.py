@@ -61,6 +61,7 @@ def plot_categorical_distributions(df, figsize=(10, 4)):
     for column in categorical_columns:
         plt.figure(figsize=figsize)
         sns.countplot(x=column, data=df)
+        plt.ylabel('Count')
         plt.title(f'Distribution of {column}')
         plt.show()
 
