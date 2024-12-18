@@ -8,8 +8,6 @@ d100_d400_project
 2. [Installation Instructions](#installation-instructions)
    - [Environment Setup](#environment-setup)
    - [Project Installation](#project-installation)
-3. [Usage](#usage)
-4. [Contributing](#contributing)
 
 ---
 
@@ -95,50 +93,52 @@ python -c "import modules; print('Package installed successfully')"
 
 Here’s an overview of the directory structure:
 
-Project/
+D100_D400_Project/
 │
-├── analyses/ # Analysis scripts and notebooks
-│ └── eda_cleaning.ipynb # Exploratory Data Analysis and cleaning notebook
-| └── model_training.py # Model training script
-│
-├── data/ # Data directory
-│ ├── cleaned_dataset.parquet # Cleaned dataset file
-│ └── dataset.csv # Raw dataset file
-│
-├── modules/ # Custom Python modules
-│ ├── data_prep/ # Data preparation functions
-│ │ ├── **init**.py
-│ │ ├── \_handle_skewness.py
-│ │ ├── \_load_data.py
-│ │ └── \_sample_split.py
+├── d100_d400_project/ # Main package directory
+│ ├── **init**.py # Makes this directory a package
+│ ├── analyses/ # Analysis scripts and notebooks
+│ │ └── ... # EDA and model training scripts
 │ │
-│ ├── evaluation/ # Model evaluation functions
-│ │ ├── **init**.py
-│ │ └── \_evaluate.py
+│ ├── data/ # Data directory
+│ │ └── ... # Cleaned and raw datasets
 │ │
-│ ├── feature_engineering/ # Feature engineering logic
+│ ├── modules/ # Custom Python modules
+│ │ ├── data_prep/ # Data preparation functions
+│ │ │ ├── **init**.py
+│ │ │ ├── \_handle_skewness.py
+│ │ │ ├── \_load_data.py
+│ │ │ └── \_sample_split.py
+│ │ │
+│ │ ├── evaluation/ # Model evaluation functions
+│ │ │ ├── **init**.py
+│ │ │ └── \_evaluate.py
+│ │ │
+│ │ ├── feature_engineering/ # Feature engineering logic
+│ │ │ ├── **init**.py
+│ │ │ ├── \_ordinalEncoder.py
+│ │ │ └── \_winsorizer.py
+│ │ │
+│ │ ├── path/ # Path utilities
+│ │ │ ├── **init**.py
+│ │ │ └── \_path_helper.py
+│ │ │
+│ │ └── plotting/ # Plotting and visualization
 │ │ ├── **init**.py
-│ │ ├── \_ordinalEncoder.py
-│ │ └── \_winsorizer.py
-│ │
-│ ├── path/ # Path helpers and utilities
-│ │ ├── **init**.py
-│ │ └── \_path_helper.py
-│ │
-│ └── plotting/ # Plotting and visualization functions
-│ ├── **init**.py
-│ └── plotting.py
+│ │ └── plotting.py
 │
 ├── test/ # Unit tests
 │ ├── **init**.py
 │ └── test_ordinalencoder.py
 │
-├── .gitignore # Git ignore file
-├── .pre-commit-config.yaml # Pre-commit hook configurations
-├── .prettierrc # Prettier configuration file
-├── .coverage # Coverage file
+├── build/ # Build artifacts
+│
+├── .coverage # Code coverage report
 ├── .flake8 # Flake8 linting configuration
+├── .gitignore # Git ignore file
+├── .pre-commit-config.yaml # Pre-commit hooks
+├── .prettierrc # Prettier configuration
 ├── environment.yml # Conda environment file
-├── pyproject.toml # Project metadata and build system configuration
-├── setup.cfg # Python package setup configuration
-|── README.md # Project documentation
+├── pyproject.toml # Project build system metadata
+├── setup.cfg # Project package configuration
+└── README.md # Project documentation

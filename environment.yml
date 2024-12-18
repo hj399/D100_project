@@ -16,7 +16,7 @@ dependencies:
   - black
   # Data processing
   - pandas
-  - numpy
+  - numpy=1.26.4
   - scipy
   - dask-ml
   - ydata-profiling
