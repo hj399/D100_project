@@ -2,20 +2,11 @@
 
 d100_d400_project
 
-## Table of Contents
-
-1. [Overview](#overview)
-2. [Installation Instructions](#installation-instructions)
-   - [Environment Setup](#environment-setup)
-   - [Project Installation](#project-installation)
-
----
-
 ## Overview
 
 The dataset was created in a project that aims to imporve the reduction of academic dropout and failure in higher education, by using machine learning techniques to identify students at risk at an early stage of their academic path, so that strategies to support them can be implemented.
 
-This project explores and predicts the dropout and failure in higher education (Target Variable). It includes:
+This project explores and predicts the dropout in higher education (Target Variable). It includes:
 
 - EDA and Data preprocessing
 - Model training (e.g., GLM, LGBM)

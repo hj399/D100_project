@@ -251,6 +251,9 @@ model_pipeline = Pipeline(
 
 # %%
 # Hyperparameter tuning
+
+# Not using min_child_weight, since it's a hyperparameter
+# used in XGBoost, not LightGBM
 param_grid = {
     "lgbm__learning_rate": [0.025, 0.05, 0.15],
     "lgbm__n_estimators": [125, 150, 170],
@@ -401,7 +404,7 @@ cat_output_features = fitted_preprocessor.named_transformers_[
     "cat"
 ].get_feature_names_out(input_features=categoricals)
 
-ord_output_features = ordinal  # CustomOrdinalEncoder doesn't expand features
+ord_output_features = ordinal
 
 # Combine all output feature names
 all_feature_names = (
