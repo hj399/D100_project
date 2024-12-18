@@ -25,6 +25,14 @@ This project explores and predicts the dropout and failure in higher education (
 
 ---
 
+## Repository
+
+The code for this project is hosted on GitHub. Clone or download the repository using the following link:
+
+[D100 / D400 Project GitHub Repository](https://github.com/hj399/D100_project.git)
+
+---
+
 ## Installation Instructions
 
 To set up and run this project, follow the steps below.
