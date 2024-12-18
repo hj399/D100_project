@@ -1,26 +1,27 @@
 # Project Name
-D100 / D400 Project
+
+d100_d400_project
 
 ## Table of Contents
 
-1. [Overview](#overview)  
-2. [Installation Instructions](#installation-instructions)  
-   - [Environment Setup](#environment-setup)  
-   - [Project Installation](#project-installation)  
-3. [Usage](#usage)  
-4. [Contributing](#contributing)  
+1. [Overview](#overview)
+2. [Installation Instructions](#installation-instructions)
+   - [Environment Setup](#environment-setup)
+   - [Project Installation](#project-installation)
+3. [Usage](#usage)
+4. [Contributing](#contributing)
 
 ---
 
 ## Overview
 
-The dataset was created in a project that aims to imporve to the reduction of academic dropout and failure in higher education, by using machine learning techniques to identify students at risk at an early stage of their academic path, so that strategies to support them can be implemented.
+The dataset was created in a project that aims to imporve the reduction of academic dropout and failure in higher education, by using machine learning techniques to identify students at risk at an early stage of their academic path, so that strategies to support them can be implemented.
 
-This project explores and predict the dropout and failure in higher education (Target Variable). It includes:
+This project explores and predicts the dropout and failure in higher education (Target Variable). It includes:
 
-- EDA and Data preprocessing  
-- Model training (e.g., GLM, LGBM)  
-- Model evaluation and interpretability using SHAP, PDPs, and other tools  
+- EDA and Data preprocessing
+- Model training (e.g., GLM, LGBM)
+- Model evaluation and interpretability using SHAP, PDPs, and other tools
 
 ---
 
@@ -74,13 +75,11 @@ pip install --no-build-isolation -e .
 
 ### 5. **Verify the Installation**
 
-To verify that the environment is set up correctly, check the installed packages:
+To verify that the package is set up correctly, check the installed packages:
 
 ```bash
-conda list
+python -c "import modules; print('Package installed successfully')"
 ```
-
-You should see all required dependencies (e.g., `pandas`, `lightgbm`, `dalex`, `shap`, etc.).
 
 ---
 
@@ -90,49 +89,48 @@ Here’s an overview of the directory structure:
 
 Project/
 │
-├── analyses/                     # Analysis scripts and notebooks
-│   └── eda_cleaning.ipynb        # Exploratory Data Analysis and cleaning notebook
-|   └── model_training.py         # Model training script               
+├── analyses/ # Analysis scripts and notebooks
+│ └── eda_cleaning.ipynb # Exploratory Data Analysis and cleaning notebook
+| └── model_training.py # Model training script
 │
-├── data/                         # Data directory
-│   ├── cleaned_dataset.parquet   # Cleaned dataset file
-│   └── dataset.csv               # Raw dataset file
+├── data/ # Data directory
+│ ├── cleaned_dataset.parquet # Cleaned dataset file
+│ └── dataset.csv # Raw dataset file
 │
-├── modules/                      # Custom Python modules
-│   ├── data_prep/                # Data preparation functions
-│   │   ├── __init__.py
-│   │   ├── _handle_skewness.py
-│   │   ├── _load_data.py
-│   │   └── _sample_split.py
-│   │
-│   ├── evaluation/               # Model evaluation functions
-│   │   ├── __init__.py
-│   │   └── _evaluate.py
-│   │
-│   ├── feature_engineering/      # Feature engineering logic
-│   │   ├── __init__.py
-│   │   ├── _ordinalEncoder.py
-│   │   └── _winsorizer.py
-│   │
-│   ├── path/                     # Path helpers and utilities
-│   │   ├── __init__.py
-│   │   └── _path_helper.py
-│   │
-│   └── plotting/                 # Plotting and visualization functions
-│       ├── __init__.py
-│       └── plotting.py
+├── modules/ # Custom Python modules
+│ ├── data_prep/ # Data preparation functions
+│ │ ├── **init**.py
+│ │ ├── \_handle_skewness.py
+│ │ ├── \_load_data.py
+│ │ └── \_sample_split.py
+│ │
+│ ├── evaluation/ # Model evaluation functions
+│ │ ├── **init**.py
+│ │ └── \_evaluate.py
+│ │
+│ ├── feature_engineering/ # Feature engineering logic
+│ │ ├── **init**.py
+│ │ ├── \_ordinalEncoder.py
+│ │ └── \_winsorizer.py
+│ │
+│ ├── path/ # Path helpers and utilities
+│ │ ├── **init**.py
+│ │ └── \_path_helper.py
+│ │
+│ └── plotting/ # Plotting and visualization functions
+│ ├── **init**.py
+│ └── plotting.py
 │
-├── test/                         # Unit tests
-│   ├── __init__.py
-│   └── test_ordinalencoder.py
+├── test/ # Unit tests
+│ ├── **init**.py
+│ └── test_ordinalencoder.py
 │
-├── .gitignore                    # Git ignore file
-├── .pre-commit-config.yaml       # Pre-commit hook configurations
-├── .prettierrc                   # Prettier configuration file
-├── .coverage                     # Coverage file
-├── .flake8                       # Flake8 linting configuration
-├── environment.yml               # Conda environment file
-├── pyproject.toml                # Project metadata and build system configuration
-├── setup.cfg                     # Python package setup configuration
-|── README.md                     # Project documentation
-
+├── .gitignore # Git ignore file
+├── .pre-commit-config.yaml # Pre-commit hook configurations
+├── .prettierrc # Prettier configuration file
+├── .coverage # Coverage file
+├── .flake8 # Flake8 linting configuration
+├── environment.yml # Conda environment file
+├── pyproject.toml # Project metadata and build system configuration
+├── setup.cfg # Python package setup configuration
+|── README.md # Project documentation

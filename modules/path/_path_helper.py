@@ -1,5 +1,6 @@
 from pathlib import Path
 
+
 def get_project_root():
     """
     Get the root directory of the project.

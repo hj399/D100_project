@@ -1,19 +1,6 @@
-import hashlib
 import numpy as np
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.metrics import (
-    log_loss,
-    accuracy_score,
-    f1_score,
-    classification_report,
-    mean_absolute_error,
-    mean_squared_error,
-    auc,
-    confusion_matrix,
-    ConfusionMatrixDisplay,
-)
+from sklearn.metrics import accuracy_score, classification_report, f1_score, log_loss
 
 
 def lorenz_curve(y_true, y_pred, weights=None):
@@ -55,7 +42,7 @@ def evaluate_predictions(
     preds_column=None,
     model=None,
     model_name="Model",
-    weights_column=None
+    weights_column=None,
 ):
     """
     Evaluate predictions for multi-class classification models using various metrics.
@@ -116,7 +103,9 @@ def evaluate_predictions(
     evals["Bias"] = (pred_mean - actual_mean) / actual_mean
 
     # 2. Deviance
-    evals["Deviance"] = np.average((actuals - np.argmax(probs, axis=1)) ** 2, weights=weights)
+    evals["Deviance"] = np.average(
+        (actuals - np.argmax(probs, axis=1)) ** 2, weights=weights
+    )
 
     # 3. Log Loss, Accuracy, and F1
     evals["log_loss"] = log_loss(actuals, probs, labels=np.unique(actuals))
@@ -124,22 +113,23 @@ def evaluate_predictions(
     evals["f1_weighted"] = f1_score(actuals, preds, average="weighted")
 
     # Print evaluation results
-    print(f"\nEvaluation Metrics for {model_name}:")
+    print(f"\nEvaluation Metrics for {model_name}: ")
     for metric, value in evals.items():
-        print(f"{metric.upper()}: {value:.4f}")
+        print(f"{metric.upper()}: {value: .4f}")
 
     print("\nClassification Report:")
     print(classification_report(actuals, preds))
 
     return pd.DataFrame(evals, index=[model_name])
 
+
 def get_lgbm_feature_importance(
-    lgbm_model, 
-    fitted_preprocessor, 
-    remaining_numericals, 
-    spline_features, 
-    categoricals, 
-    ordinal
+    lgbm_model,
+    fitted_preprocessor,
+    remaining_numericals,
+    spline_features,
+    categoricals,
+    ordinal,
 ):
     """
     Extract feature importances from an LGBM pipeline with preprocessing.
@@ -171,13 +161,15 @@ def get_lgbm_feature_importance(
     - Outputs a sorted DataFrame by importance scores in descending order.
     """
     # Dynamically get feature names based on transformers
-    spline_output_features = fitted_preprocessor.named_transformers_["spline"].named_steps[
-        "spline"
-    ].get_feature_names_out(input_features=spline_features)
-
-    cat_output_features = fitted_preprocessor.named_transformers_["cat"].get_feature_names_out(
-        input_features=categoricals
+    spline_output_features = (
+        fitted_preprocessor.named_transformers_["spline"]
+        .named_steps["spline"]
+        .get_feature_names_out(input_features=spline_features)
     )
+
+    cat_output_features = fitted_preprocessor.named_transformers_[
+        "cat"
+    ].get_feature_names_out(input_features=categoricals)
 
     ord_output_features = ordinal  # CustomOrdinalEncoder doesn't expand features
 
@@ -197,9 +189,8 @@ def get_lgbm_feature_importance(
         raise ValueError("Mismatch in feature names and importances length!")
 
     # Create and return a DataFrame for feature importances
-    lgbm_feature_importance = pd.DataFrame({
-        "Feature": all_feature_names,
-        "Importance": feature_importance
-    }).sort_values(by="Importance", ascending=False)
+    lgbm_feature_importance = pd.DataFrame(
+        {"Feature": all_feature_names, "Importance": feature_importance}
+    ).sort_values(by="Importance", ascending=False)
 
     return lgbm_feature_importance
