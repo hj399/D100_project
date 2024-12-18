@@ -1,9 +1,10 @@
 import numpy as np
 import pytest
 
-from modules.feature_engineering import CustomOrdinalEncoder
+from d100_d400_project.modules.feature_engineering import CustomOrdinalEncoder
 
 
+# Test for known values
 @pytest.mark.parametrize(
     "data, input_data, expected_output",
     [
@@ -13,13 +14,13 @@ from modules.feature_engineering import CustomOrdinalEncoder
             np.array([[0, 1], [1, 0]]),  # Expected encoded result
         ),
         (
-            np.array([["X", "Y"], ["Y", "Z"], ["X", "Z"]]),
-            np.array([["Y", "Z"], ["X", "Y"]]),
-            np.array([[1, 1], [0, 0]]),
+            np.array([["X", "Y"], ["Y", "Z"], ["X", "Z"]]),  # Training data
+            np.array([["Y", "Z"], ["X", "Y"]]),  # Test data
+            np.array([[1, 1], [0, 0]]),  # Expected encoded result
         ),
     ],
 )
-def test_custom_ordinal_encoder(data, input_data, expected_output):
+def test_custom_ordinal_encoder_known_values(data, input_data, expected_output):
     """
     Test CustomOrdinalEncoder for expected behavior on known values.
 
@@ -41,9 +42,14 @@ def test_custom_ordinal_encoder(data, input_data, expected_output):
     transformed_data = encoder.transform(input_data)
 
     # Assert that the transformed data matches the expected output
-    np.testing.assert_array_equal(transformed_data, expected_output)
+    np.testing.assert_array_equal(
+        transformed_data,
+        expected_output,
+        "Transformed data does not match expected output.",
+    )
 
 
+# Test for unknown values
 @pytest.mark.parametrize(
     "data, input_data",
     [
@@ -74,7 +80,6 @@ def test_custom_ordinal_encoder_unknown_values(data, input_data):
     encoder.fit(data)
     transformed_data = encoder.transform(input_data)
 
-    # Ensure unknown values are mapped to -1
     assert (
-        -1 in transformed_data
+        -1 in transformed_data.values
     ), "Unknown categories were not mapped to -1 as expected."

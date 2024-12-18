@@ -79,7 +79,9 @@ class CustomOrdinalEncoder(BaseEstimator, TransformerMixin):
         X_transformed = X.copy()
         for col in X.columns:
             if col not in self.mapping_:
-                raise ValueError(f"Column {col} was not present during fit.")
-            # Map unknown categories to -1
+                raise ValueError(f"Column '{col}' was not present during fit.")
+
+            # Map known categories, assign -1 for unknown categories
             X_transformed[col] = X[col].map(self.mapping_[col]).fillna(-1).astype(int)
+
         return X_transformed
