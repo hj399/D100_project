@@ -11,7 +11,8 @@ from .plotting import (
     plot_learning_curve,
     plot_pdp_top_features,
     plot_lgbm_top_features,
-    get_glm_feature_importance
+    get_glm_feature_importance,
+    lorenz_curve
 )
 
 __all__ = [
@@ -28,5 +29,6 @@ __all__ = [
     "plot_learning_curve",
     "plot_pdp_top_features", 
     "plot_lgbm_top_features",
-    "get_glm_feature_importance"
+    "get_glm_feature_importance",
+    "lorenz_curve"
 ]

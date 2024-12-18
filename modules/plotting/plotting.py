@@ -3,6 +3,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
 import numpy as np
 from sklearn.model_selection import learning_curve
 import matplotlib.pyplot as plt
+from sklearn.metrics import auc
 from scipy.stats import skew
 
 def plot_correlation_matrix(df, figsize=(20, 10)):
@@ -91,9 +92,6 @@ def plot_pairplot(df, features, hue='Target'):
 
 
 
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
 
 def plot_boxplot(df, figsize=(20, 10)):
     """
@@ -357,41 +355,72 @@ def plot_confusion_matrix(df, outcome_column, preds_column, model_name):
     plt.show()
 
 
-def lorenz_curve(y_true, y_pred, weights=None):
+
+
+def lorenz_curve(y_true, y_preds, model_names, weights=None, save_path=None):
     """
-    Generate Lorenz curve values for calculating the Gini coefficient.
+    Generate and plot Lorenz curves for multiple models with Gini coefficients.
 
     Parameters:
     -----------
     y_true : array-like
         Actual target values.
-    y_pred : array-like
-        Predicted target values.
+    y_preds : list of array-like
+        A list of predicted target probabilities for each model.
+    model_names : list of str
+        A list of model names corresponding to the predicted values.
     weights : array-like, optional
         Weights for each sample. If None, equal weights are assumed.
+    save_path : str, optional
+        Path to save the plot as a file. If None, the plot is displayed.
 
     Returns:
     --------
-    cum_exposure : numpy.ndarray
-        Cumulative proportion of observations.
-    cum_true : numpy.ndarray
-        Cumulative proportion of the true target values.
+    gini_scores : dict
+        A dictionary with model names as keys and their Gini coefficients as values.
 
     Notes:
     ------
-    The Lorenz curve can be used to compute the Gini index, which is a measure
-    of inequality or model performance in certain domains.
+    The Lorenz curve and Gini coefficients help evaluate the discriminatory power of models.
     """
-    order = np.argsort(y_pred)
-    y_true, y_pred = y_true[order], y_pred[order]
-    if weights is not None:
-        weights = weights[order]
-    else:
-        weights = np.ones_like(y_true)
-    cum_true = np.cumsum(y_true * weights) / np.sum(y_true * weights)
-    cum_exposure = np.cumsum(weights) / np.sum(weights)
-    return cum_exposure, cum_true
+    plt.figure(figsize=(8, 6))
+    gini_scores = {}
 
+    # Equal weights if none are provided
+    if weights is None:
+        weights = np.ones_like(y_true)
+
+    # Plot Lorenz curves for each model
+    for y_pred, model_name in zip(y_preds, model_names):
+        order = np.argsort(y_pred)  # Sort predictions
+        y_true_sorted = np.array(y_true)[order]
+        weights_sorted = np.array(weights)[order]
+
+        cum_true = np.cumsum(y_true_sorted * weights_sorted) / np.sum(y_true_sorted * weights_sorted)
+        cum_exposure = np.cumsum(weights_sorted) / np.sum(weights_sorted)
+        
+        gini_coefficient = 1 - 2 * auc(cum_exposure, cum_true)
+        gini_scores[model_name] = gini_coefficient
+
+        # Plot Lorenz curve
+        plt.plot(cum_exposure, cum_true, label=f"{model_name} (Gini: {gini_coefficient:.4f})", linewidth=2)
+
+    # Add perfect equality line
+    plt.plot([0, 1], [0, 1], linestyle="--", color="gray", label="Perfect Equality Line")
+
+    # Customize the plot
+    plt.title("Lorenz Curve Comparison Across Models")
+    plt.xlabel("Cumulative Share of Population")
+    plt.ylabel("Cumulative Share of Target")
+    plt.legend()
+    plt.grid(True)
+
+    # Save or display the plot
+    if save_path:
+        plt.savefig(save_path, bbox_inches="tight")
+    plt.show()
+
+    return gini_scores
 
 def plot_learning_curve(estimator, X, y, title="Learning Curve", cv=5, scoring="accuracy"):
     """

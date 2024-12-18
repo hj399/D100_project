@@ -84,7 +84,7 @@ def evaluate_predictions(
 
     Notes
     -----
-    - Calculates metrics including bias, deviance, log loss, accuracy, F1 score, MAE, and Gini coefficient.
+    - Calculates metrics including bias, deviance, log loss, accuracy, F1 score and MAE.
     - If neither `prob_column` nor `model` is provided, raises a ValueError.
     - Outputs a classification report for detailed performance analysis.
     """
@@ -122,10 +122,6 @@ def evaluate_predictions(
     evals["log_loss"] = log_loss(actuals, probs, labels=np.unique(actuals))
     evals["accuracy"] = accuracy_score(actuals, preds)
     evals["f1_weighted"] = f1_score(actuals, preds, average="weighted")
-
-    # 4. Gini Coefficient
-    cum_exposure, cum_true = lorenz_curve(actuals, np.argmax(probs, axis=1), weights)
-    evals["Gini"] = 1 - 2 * auc(cum_exposure, cum_true)
 
     # Print evaluation results
     print(f"\nEvaluation Metrics for {model_name}:")

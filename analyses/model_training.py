@@ -22,7 +22,8 @@ from modules.plotting import  (plot_confusion_matrix,
                                plot_learning_curve,
                                plot_pdp_top_features,
                                plot_lgbm_top_features,
-                               get_glm_feature_importance)
+                               get_glm_feature_importance,
+                               lorenz_curve)
 
 
 # %%
@@ -421,3 +422,20 @@ print(lgbm_vi.result)
 
 glm_vi.plot(lgbm_vi, title="Variable Importance Comparison: GLM vs LGBM")
 
+
+# %% 
+# Generate the Lorenz Curve for Both Models
+y_true = (df_test["Target"] == 0).astype(int).values  
+
+glm_y_pred_proba = df_test["glm_proba_class_0"]  # Use predicted probabilities for Dropout
+lgbm_y_pred_proba = df_test["lgbm_proba_class_0"]
+
+y_preds = [glm_y_pred_proba, lgbm_y_pred_proba]
+model_names = ["GLM", "LGBM"]
+
+gini_scores = lorenz_curve(y_true, y_preds, model_names)
+
+for model, gini in gini_scores.items():
+    print(f"{model} Gini Coefficient: {gini:.4f}")
+
+# %%
