@@ -83,8 +83,7 @@ python -c "import modules; print('Package installed successfully')"
 ### 6. **Run eda_cleaning.ipynb**
 
 ```bash
-jupyter notebook
-d100_d400_project/analyses/eda_cleaning.ipynb
+jupyter notebook d100_d400_project/analyses/eda_cleaning.ipynb
 ```
 
 ---
