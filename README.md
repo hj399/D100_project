@@ -80,6 +80,23 @@ python -c "import modules; print('Package installed successfully')"
 
 ---
 
+### 6. **Run eda_cleaning.ipynb**
+
+```bash
+jupyter notebook
+d100_d400_project/analyses/eda_cleaning.ipynb
+```
+
+---
+
+### 7. **Run model_training.py**
+
+```bash
+python d100_d400_project/analyses/model_training.py
+```
+
+---
+
 ## Project Structure
 
 Here’s an overview of the directory structure:
@@ -89,11 +106,14 @@ D100_D400_Project/
 ├── d100_d400_project/ # Main package directory
 │ ├── **init**.py # Makes this directory a package
 │ ├── analyses/ # Analysis scripts and notebooks
-│ │ └── ... # EDA and model training scripts
-│ │
-│ ├── data/ # Data directory
-│ │ └── ... # Cleaned and raw datasets
-│ │
+│ │ │ ├── **init**.py
+│ │ │ ├── \_eda_cleaning,ipynb
+│ │ │ ├── \_model_training.py
+│ │ │
+│ ├── data/ # Data directory # Cleaned and raw datasets
+│ │ │ ├── \_cleaned_dataset.parquet
+│ │ │ ├── \_dataset.csv
+│ │ │
 │ ├── modules/ # Custom Python modules
 │ │ ├── data_prep/ # Data preparation functions
 │ │ │ ├── **init**.py
